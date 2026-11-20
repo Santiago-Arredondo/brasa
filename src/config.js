@@ -8,6 +8,6 @@
  *   clave `service_role` ni la `secret`.
  */
 export const SUPABASE = {
-  url: '',
-  key: '',
+  url: 'https://zswfgjqvejegzonlkdep.supabase.co',
+  key: 'sb_publishable_VBjSVlWbbjNvVuD8RQMpeA_6WOdABEp',
 };

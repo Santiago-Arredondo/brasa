@@ -40,6 +40,9 @@ create policy "sessions: dueño" on public.sessions
   using ((select auth.uid()) = user_id)
   with check ((select auth.uid()) = user_id);
 
+grant select, insert, update, delete on public.profiles to authenticated;
+grant select, insert, update, delete on public.sessions to authenticated;
+
 -- ---------- "Borrar todos mis datos": elimina la cuenta (y en cascada sus filas) ----------
 create or replace function public.delete_my_account()
 returns void
