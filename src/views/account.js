@@ -89,7 +89,7 @@ export function accountView({ store, sync, navigate }) {
         <p>Conectado como <strong>${sync.getStatus().email}</strong></p>
         <p class="field__hint" data-ref="status" role="status"></p>
         <button type="button" class="btn btn--secondary btn--block" data-action="sync">Sincronizar ahora</button>
-        <button type="button" class="btn btn--ghost btn--block" data-action="sign-out">Cerrar sesión</button>
+        <button type="button" class="btn btn--secondary btn--block" data-action="sign-out">Cerrar sesión</button>
         <p class="field__hint">Al cerrar sesión, tus datos siguen en este dispositivo.</p>
       </article>
     `,

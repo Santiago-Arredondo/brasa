@@ -194,7 +194,7 @@ export function profileView({ store, sync, navigate }) {
               <h2 id="cloud-title">☁️ Tu brasa en la nube</h2>
               <p class="muted" data-ref="cloud-text" role="status"></p>
               <a class="btn btn--secondary btn--block" href="#/cuenta" data-ref="cloud-cta"></a>
-              <button type="button" class="btn btn--ghost btn--block" data-action="sign-out" disabled>Cerrar sesión</button>
+              <button type="button" class="btn btn--secondary btn--block" data-action="sign-out" disabled>Cerrar sesión</button>
               <p class="field__hint" data-ref="sign-out-note">Inicia sesión con «Guardar mi progreso» para habilitar el cierre de sesión.</p>
             </article>
 
