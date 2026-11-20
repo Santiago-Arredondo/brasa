@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brasa · Galería de figuras</title>
+    <link rel="stylesheet" href="../styles/tokens.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body { padding: var(--sp-5); }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--sp-3); margin-top: var(--sp-5); }
+      .item { padding: var(--sp-3); border-radius: var(--radius-md); background: var(--c-surface); font-size: var(--fs-sm); }
+      .item small { display: block; color: var(--c-text-muted); }
+      h2 { margin-top: var(--sp-6); }
+    </style>
+  </head>
+  <body>
+    <h1>Galería de figuras</h1>
+    <p class="muted">Herramienta de desarrollo: revisa la animación de cada ejercicio.</p>
+    <div id="app"></div>
+    <script type="module">
+      import { html, render } from '../src/core/dom.js';
+      import { exerciseFigure } from '../src/components/figure.js';
+      import { EXERCISES } from '../src/data/exercises.js';
+      import { WORKOUT_TYPES } from '../src/data/workout-types.js';
+
+      render(
+        document.getElementById('app'),
+        html`${WORKOUT_TYPES.map(
+          (type) => html`
+            <h2>${type.icon} ${type.name}</h2>
+            <div class="grid">
+              ${EXERCISES.filter((e) => e.types.includes(type.id)).map(
+                (e) => html`<div class="item">
+                  ${exerciseFigure(e, { size: 'lg' })}
+                  <strong>${e.name}</strong><small>Nivel ${e.level} · ${e.id}</small>
+                </div>`,
+              )}
+            </div>
+          `,
+        )}`,
+      );
+    </script>
+  </body>
+</html>

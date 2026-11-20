@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brasa · Tests</title>
+    <style>
+      body { margin: 0; padding: 2rem; background: #120f0d; color: #f6efe7; font: 15px/1.5 system-ui, sans-serif; }
+      h1 { margin: 0 0 0.5rem; }
+      ul { list-style: none; padding: 0; }
+      li { padding: 0.35rem 0; border-bottom: 1px solid #3a302a; }
+      .ok { color: #5ed6a0; }
+      .fail { color: #ff4d6d; }
+      small { display: block; color: #b3a79c; }
+    </style>
+  </head>
+  <body>
+    <h1>🔥 Tests de dominio y sincronización</h1>
+    <p id="summary">Ejecutando…</p>
+    <ul id="results"></ul>
+    <script type="module">
+      import { run } from './runner.js';
+      import './domain.test.js';
+      import './sync.test.js';
+
+      const results = await run();
+      const failed = results.filter((r) => !r.ok);
+      const summary = document.getElementById('summary');
+      summary.textContent = `${results.length - failed.length}/${results.length} pasaron`;
+      summary.className = failed.length ? 'fail' : 'ok';
+
+      document.getElementById('results').replaceChildren(
+        ...results.map((r) => {
+          const li = document.createElement('li');
+          li.className = r.ok ? 'ok' : 'fail';
+          li.textContent = `${r.ok ? '✓' : '✗'} ${r.name}`;
+          if (!r.ok) {
+            const small = document.createElement('small');
+            small.textContent = r.error;
+            li.append(small);
+          }
+          return li;
+        }),
+      );
+      document.title = `${failed.length ? '✗' : '✓'} Brasa · Tests`;
+    </script>
+  </body>
+</html>

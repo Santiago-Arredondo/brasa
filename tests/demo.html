@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Brasa · Datos de demo</title>
+  </head>
+  <body style="background:#120f0d;color:#f6efe7;font-family:system-ui;padding:2rem">
+    <p id="msg">Cargando…</p>
+    <script type="module">
+      /**
+       * Herramienta de desarrollo: crea un perfil con 10 días de historial para probar la app.
+       * Nunca sobrescribe datos existentes salvo que se pase ?forzar=1.
+       * Uso: /tests/demo.html?ir=entreno&tipo=yoga
+       */
+      import { STORAGE_KEY, initialState } from '../src/core/store.js';
+      import { addDays, toISODate } from '../src/domain/dates.js';
+
+      const params = new URLSearchParams(location.search);
+      const exists = localStorage.getItem(STORAGE_KEY);
+
+      if (exists && params.get('forzar') !== '1') {
+        document.getElementById('msg').textContent =
+          'Ya hay datos guardados; no se sobrescriben. Usa ?forzar=1 si de verdad quieres reemplazarlos.';
+      } else {
+        const today = toISODate();
+        const sessions = [1, 2, 3, 5, 6, 7, 8, 10, 11, 12].map((n, i) => ({
+          id: `demo-${n}`,
+          date: addDays(today, -n),
+          type: ['funcional', 'cardio', 'yoga', 'core', 'caminata'][i % 5],
+          mode: n === 5 ? 'minimo' : 'full',
+          minutes: n === 5 ? 2 : 10,
+          completedAt: `${addDays(today, -n)}T18:00:00.000Z`,
+        }));
+        const state = {
+          ...initialState(),
+          profile: { name: 'Demo', goal: 'fuerza', level: 2, minutes: 10, why: 'Quiero demostrarme que sí puedo cumplirme.', signedAt: new Date().toISOString() },
+          sessions,
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        const route = params.get('ir') ?? 'hoy';
+        const tipo = params.get('tipo');
+        location.replace(`../#/${route}${tipo ? `?tipo=${encodeURIComponent(tipo)}` : ''}`);
+      }
+    </script>
+  </body>
+</html>

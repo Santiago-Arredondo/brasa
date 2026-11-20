@@ -1,0 +1,11 @@
+{
+  "name": "Brasa · Mantén viva tu brasa",
+  "short_name": "Brasa",
+  "description": "La app de fitness para quienes empiezan... y esta vez no paran.",
+  "lang": "es",
+  "start_url": "./#/hoy",
+  "display": "standalone",
+  "background_color": "#120F0D",
+  "theme_color": "#120F0D",
+  "icons": [{ "src": "assets/icons/brasa.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

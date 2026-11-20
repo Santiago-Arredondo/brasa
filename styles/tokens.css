@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Design tokens — única fuente de verdad para color, tipografía y espaciado.
+   Paleta "Brasa": carbón + fuego. Texto oscuro sobre fuego para contraste AA.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* Superficies (carbón) */
+  --c-bg: #120f0d;
+  --c-surface: #1c1815;
+  --c-surface-2: #26201c;
+  --c-border: #3a302a;
+
+  /* Texto */
+  --c-text: #f6efe7;
+  --c-text-muted: #b3a79c;
+  --c-on-fire: #1a0e07;
+
+  /* Fuego */
+  --c-ember: #ff5f1f;
+  --c-ember-soft: #ff9a3c;
+  --c-amber: #ffc857;
+  --c-ash: #6e625a;
+
+  /* Estados */
+  --c-mint: #5ed6a0;
+  --c-danger: #ff4d6d;
+
+  --grad-fire: linear-gradient(135deg, #ff5f1f 0%, #ff9a3c 55%, #ffc857 100%);
+
+  /* Tipografía */
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: clamp(2.5rem, 9vw, 3.25rem);
+
+  /* Espaciado (escala 4px) */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+
+  /* Formas y efectos */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --shadow-glow: 0 8px 32px rgb(255 95 31 / 0.35);
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur-med: 300ms;
+
+  /* Layout */
+  --tabbar-h: 68px;
+  --shell-w: 480px;
+}
