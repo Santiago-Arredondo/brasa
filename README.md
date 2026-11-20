@@ -43,9 +43,9 @@ En macOS/Linux también puedes usar `python3 -m http.server 5173`.
 
 ## Publicar en la web
 
-El workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) ejecuta `npm test` y publica la app en GitHub Pages cada vez que se actualiza `master`, una vez que Pages esté habilitado. La URL esperada es <https://santiago-arredondo.github.io/brasa/>. Si Pages aún no está habilitado, en GitHub abre **Settings → Pages** y selecciona **GitHub Actions** como fuente de despliegue.
+El workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) ejecuta `npm test` y publica la app en GitHub Pages cada vez que se actualiza `master`. La URL es <https://santiago-arredondo.github.io/brasa/>. GitHub Pages está configurado con **GitHub Actions** como fuente de despliegue.
 
-**Estado actual:** GitHub rechazó habilitar Pages para este repositorio privado con el plan actual. Por tanto, el workflow está preparado pero el sitio todavía no está publicado y el job fallará hasta elegir una alternativa. GitHub Pages sirve el sitio públicamente. GitHub Free requiere que el repositorio sea público para usar Pages; si el repositorio debe seguir privado, hace falta un plan compatible o alojar el sitio en otro proveedor estático. No cambies la visibilidad del repositorio sin confirmar que quieres hacer público también el código.
+GitHub Pages sirve el sitio y el código fuente públicamente. Si necesitas mantener el código privado, migra el despliegue a un proveedor que permita repositorios privados antes de volver a cambiar la visibilidad.
 
 Cuando tengas la URL publicada, en Supabase **Authentication → URL Configuration** establece esa URL como *Site URL* y añádela a *Redirect URLs*. Conserva también `http://localhost:5173/` en la lista para el desarrollo local.
 
