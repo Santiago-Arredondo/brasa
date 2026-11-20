@@ -27,8 +27,10 @@ Revisa todas las figuras en `/tests/figuras.html`.
 No requiere instalación ni build. Desde la carpeta del proyecto:
 
 ```bash
-python -m http.server 5173
+py -m http.server 5173
 ```
+
+En macOS/Linux también puedes usar `python3 -m http.server 5173`.
 
 - App: http://localhost:5173
 - Tests: http://localhost:5173/tests/ (o en consola: `npm test` si tienes Node)
@@ -38,6 +40,14 @@ python -m http.server 5173
 > Al agregar archivos a `src/` o `styles/`, añádelos a `PRECACHE` en `sw.js` (hay un test que lo verifica).
 
 > Se necesita un servidor (no abrir `index.html` con doble clic) porque los ES Modules no cargan desde `file://`.
+
+## Publicar en la web
+
+El workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) ejecuta `npm test` y publica la app en GitHub Pages cada vez que se actualiza `master`. La URL esperada es <https://santiago-arredondo.github.io/brasa/>. Si Pages aún no está habilitado, en GitHub abre **Settings → Pages** y selecciona **GitHub Actions** como fuente de despliegue.
+
+GitHub Pages sirve el sitio públicamente. GitHub Free requiere que el repositorio sea público para usar Pages; si el repositorio debe seguir privado, hace falta un plan compatible o alojar el sitio en otro proveedor estático. No cambies la visibilidad del repositorio sin confirmar que quieres hacer público también el código.
+
+Cuando tengas la URL publicada, en Supabase **Authentication → URL Configuration** establece esa URL como *Site URL* y añádela a *Redirect URLs*. Conserva también `http://localhost:5173/` en la lista para el desarrollo local.
 
 ## Nube con Supabase (opcional)
 
