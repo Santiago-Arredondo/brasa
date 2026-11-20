@@ -57,6 +57,11 @@ export function onboardingView({ store, sync, navigate }) {
       <p class="muted">
         Aquí no empezamos con un plan perfecto. Empezamos con un pacto contigo. Te toma un minuto.
       </p>
+      <p class="storage-note" role="note">
+        ${sync?.getStatus().phase === 'disabled'
+          ? 'Tu pacto y tus entrenamientos se guardan en este dispositivo. La copia en la nube no está activada.'
+          : 'Tu pacto y tus entrenamientos se guardan automáticamente en este dispositivo. Para respaldarlos en la nube y recuperarlos desde otro equipo, al terminar ve a «Mi pacto» y elige «Guardar mi progreso».'}
+      </p>
       <div class="field">
         <label class="field__label" for="name">¿Cómo te llamamos?</label>
         <input

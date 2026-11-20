@@ -48,6 +48,14 @@
   color: var(--c-text-muted);
   text-align: right;
 }
+.storage-note {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 3px solid var(--c-amber);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--c-surface);
+  font-size: var(--fs-sm);
+}
 
 .pact {
   position: relative;

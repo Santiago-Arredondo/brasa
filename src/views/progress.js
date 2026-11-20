@@ -41,10 +41,11 @@ function heatmap(sessions, today) {
   `;
 }
 
-export function progressView({ store }) {
+export function progressView({ store, sync }) {
   return {
     mount(root) {
       const { sessions } = store.getState();
+      const showCloudSave = sync && sync.getStatus().phase !== 'disabled' && !sync.isSignedIn();
       const today = toISODate();
       const { current, best } = computeStreaks(sessions, today);
       const heat = emberHeat(sessions, today);
@@ -61,6 +62,13 @@ export function progressView({ store }) {
               <p class="eyebrow">Tu historia</p>
               <h1>Progreso</h1>
             </header>
+
+            ${showCloudSave
+              ? html`<a class="card card--subtle nudge" href="#/perfil">
+                  <span aria-hidden="true">☁️</span>
+                  <span><strong>Estas sesiones solo están en este dispositivo</strong><br /><span class="muted">Ve a «Mi pacto» y elige «Guardar mi progreso» para respaldarlas.</span></span>
+                </a>`
+              : ''}
 
             <dl class="stats">
               <div class="stat"><dt>Racha actual</dt><dd>${current}</dd></div>

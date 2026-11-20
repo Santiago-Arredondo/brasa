@@ -51,7 +51,9 @@ Cuando tengas la URL publicada, en Supabase **Authentication → URL Configurati
 
 ## Nube con Supabase (opcional)
 
-Sin configurar, Brasa guarda todo solo en el dispositivo (`localStorage`). Para activar cuentas y sincronización:
+El pacto y cada entrenamiento se guardan automáticamente en el navegador actual. **Eso no crea una copia en la nube:** para respaldar y recuperar el progreso en otro equipo, la persona debe iniciar sesión desde **Mi pacto → Guardar mi progreso**. Si no inicia sesión, los datos permanecen solo en ese navegador y pueden perderse al borrar sus datos locales.
+
+Para activar cuentas y sincronización:
 
 1. Crea un proyecto en [supabase.com](https://supabase.com).
 2. **SQL Editor** → pega y ejecuta [`supabase/schema.sql`](supabase/schema.sql) (tablas `profiles` y `sessions`, RLS y la función para borrar la cuenta).

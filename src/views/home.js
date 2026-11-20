@@ -76,7 +76,7 @@ function typePicker(selectedId) {
   `;
 }
 
-export function homeView({ store }) {
+export function homeView({ store, sync }) {
   let root;
 
   function draw() {
@@ -90,6 +90,7 @@ export function homeView({ store }) {
     const workout = generateWorkout({ profile, date: today, type: type.id });
     const message = statusMessage(status, sessions.length);
     const showWhy = status.atRisk || status.cold;
+    const showCloudSave = sync && sync.getStatus().phase !== 'disabled' && !sync.isSignedIn();
     const startHref = `#/entreno?tipo=${type.id}`;
 
     render(
@@ -111,6 +112,13 @@ export function homeView({ store }) {
           </div>
 
           <p class="home__status home__status--${message.tone}" role="status">${message.text}</p>
+
+          ${showCloudSave
+            ? html`<a class="card card--subtle nudge" href="#/perfil">
+                <span aria-hidden="true">☁️</span>
+                <span><strong>Tu progreso aún está solo en este dispositivo</strong><br /><span class="muted">Activa «Guardar mi progreso» para respaldarlo.</span></span>
+              </a>`
+            : ''}
 
           ${showWhy
             ? html`<blockquote class="why-quote">
