@@ -78,6 +78,14 @@ function typePicker(selectedId) {
 
 export function homeView({ store, sync }) {
   let root;
+  let unsubscribeSync;
+
+  function refreshCloudSave() {
+    const prompt = root.querySelector('[data-ref="cloud-save"]');
+    if (!prompt) return;
+    const phase = sync.getStatus().phase;
+    prompt.hidden = phase === 'disabled' || phase === 'loading' || sync.isSignedIn();
+  }
 
   function draw() {
     const { profile, sessions, preferences, reminder } = store.getState();
@@ -90,7 +98,6 @@ export function homeView({ store, sync }) {
     const workout = generateWorkout({ profile, date: today, type: type.id });
     const message = statusMessage(status, sessions.length);
     const showWhy = status.atRisk || status.cold;
-    const showCloudSave = sync && sync.getStatus().phase !== 'disabled' && !sync.isSignedIn();
     const startHref = `#/entreno?tipo=${type.id}`;
 
     render(
@@ -113,8 +120,8 @@ export function homeView({ store, sync }) {
 
           <p class="home__status home__status--${message.tone}" role="status">${message.text}</p>
 
-          ${showCloudSave
-            ? html`<a class="card card--subtle nudge" href="#/perfil">
+          ${sync
+            ? html`<a class="card card--subtle nudge" data-ref="cloud-save" href="#/perfil" hidden>
                 <span aria-hidden="true">☁️</span>
                 <span><strong>Tu progreso aún está solo en este dispositivo</strong><br /><span class="muted">Activa «Guardar mi progreso» para respaldarlo.</span></span>
               </a>`
@@ -184,8 +191,11 @@ export function homeView({ store, sync }) {
       root = el;
       root.addEventListener('change', onChange);
       draw();
+      unsubscribeSync = sync?.subscribe(refreshCloudSave);
+      refreshCloudSave();
     },
     destroy() {
+      unsubscribeSync?.();
       root.removeEventListener('change', onChange);
     },
   };

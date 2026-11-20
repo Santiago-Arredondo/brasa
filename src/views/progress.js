@@ -42,10 +42,18 @@ function heatmap(sessions, today) {
 }
 
 export function progressView({ store, sync }) {
+  let unsubscribeSync;
+
+  function refreshCloudSave(root) {
+    const prompt = root.querySelector('[data-ref="cloud-save"]');
+    if (!prompt) return;
+    const phase = sync.getStatus().phase;
+    prompt.hidden = phase === 'disabled' || phase === 'loading' || sync.isSignedIn();
+  }
+
   return {
     mount(root) {
       const { sessions } = store.getState();
-      const showCloudSave = sync && sync.getStatus().phase !== 'disabled' && !sync.isSignedIn();
       const today = toISODate();
       const { current, best } = computeStreaks(sessions, today);
       const heat = emberHeat(sessions, today);
@@ -63,8 +71,8 @@ export function progressView({ store, sync }) {
               <h1>Progreso</h1>
             </header>
 
-            ${showCloudSave
-              ? html`<a class="card card--subtle nudge" href="#/perfil">
+            ${sync
+              ? html`<a class="card card--subtle nudge" data-ref="cloud-save" href="#/perfil" hidden>
                   <span aria-hidden="true">☁️</span>
                   <span><strong>Estas sesiones solo están en este dispositivo</strong><br /><span class="muted">Ve a «Mi pacto» y elige «Guardar mi progreso» para respaldarlas.</span></span>
                 </a>`
@@ -119,6 +127,11 @@ export function progressView({ store, sync }) {
           </section>
         `,
       );
+      unsubscribeSync = sync?.subscribe(() => refreshCloudSave(root));
+      refreshCloudSave(root);
+    },
+    destroy() {
+      unsubscribeSync?.();
     },
   };
 }
