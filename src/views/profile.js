@@ -22,6 +22,7 @@ export function profileView({ store, sync, navigate }) {
   let root;
   let deleteDialog;
   let unsubscribeSync;
+  let signingOut = false;
 
   /* ---------- Nube ---------- */
 
@@ -41,10 +42,14 @@ export function profileView({ store, sync, navigate }) {
     if (!summary) return;
     card.querySelector('[data-ref="cloud-text"]').textContent = summary.text;
     card.querySelector('[data-ref="cloud-cta"]').textContent = summary.cta;
+    const signOutButton = card.querySelector('[data-action="sign-out"]');
+    signOutButton.disabled = !sync.isSignedIn() || signingOut;
+    signOutButton.textContent = signingOut ? 'Cerrando sesión…' : 'Cerrar sesión';
     root.querySelector('[data-ref="storage-note"]').textContent = sync.isSignedIn()
       ? 'Tus datos se guardan en este dispositivo y en tu cuenta.'
       : 'Tus datos se guardan solo en este dispositivo.';
     root.querySelector('[data-ref="delete-cloud-note"]').hidden = !sync.isSignedIn();
+    root.querySelector('[data-ref="sign-out-note"]').hidden = sync.isSignedIn();
   }
 
   /* ---------- Recordatorio ---------- */
@@ -87,6 +92,18 @@ export function profileView({ store, sync, navigate }) {
     if (action === 'delete') {
       root.querySelector('[data-ref="delete-error"]').textContent = '';
       deleteDialog.showModal();
+    }
+    if (action === 'sign-out' && sync.isSignedIn() && !signingOut) {
+      signingOut = true;
+      refreshCloudUI();
+      try {
+        await sync.signOut();
+      } catch (error) {
+        root.querySelector('[data-ref="cloud-text"]').textContent = error.message;
+      } finally {
+        signingOut = false;
+        refreshCloudUI();
+      }
     }
     if (action === 'calendar') downloadReminderICS({ time: reminder.time, why: profile.why });
     if (action === 'test-reminder') {
@@ -177,6 +194,8 @@ export function profileView({ store, sync, navigate }) {
               <h2 id="cloud-title">☁️ Tu brasa en la nube</h2>
               <p class="muted" data-ref="cloud-text" role="status"></p>
               <a class="btn btn--secondary btn--block" href="#/cuenta" data-ref="cloud-cta"></a>
+              <button type="button" class="btn btn--ghost btn--block" data-action="sign-out" disabled>Cerrar sesión</button>
+              <p class="field__hint" data-ref="sign-out-note">Inicia sesión con «Guardar mi progreso» para habilitar el cierre de sesión.</p>
             </article>
 
             <div class="profile__actions">

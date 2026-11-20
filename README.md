@@ -67,7 +67,7 @@ Para activar cuentas y sincronización:
 
 > El correo integrado de Supabase tiene un límite bajo de envíos por hora; para producción configura un SMTP propio (Authentication → SMTP Settings).
 
-**Cómo funciona** (`src/core/sync.js`): local-first. `localStorage` sigue siendo la fuente inmediata y la app nunca espera a la red. Al entrar, al volver a la app o al recuperar conexión se descarga lo de la nube, se fusiona (`src/domain/merge.js`: sesiones unidas por id, gana la edición más reciente; el pacto más reciente gana) y se sube lo pendiente. Cada cambio se sube a los ~1,5 s, solo lo modificado. El recordatorio no se sincroniza (depende del permiso de notificaciones de cada dispositivo). *Borrar todos mis datos* con sesión iniciada elimina también la cuenta en la nube.
+**Cómo funciona** (`src/core/sync.js`): local-first. `localStorage` sigue siendo la fuente inmediata y la app nunca espera a la red. Al entrar, al volver a la app o al recuperar conexión se descarga lo de la nube, se fusiona (`src/domain/merge.js`: sesiones unidas por id, gana la edición más reciente; el pacto más reciente gana) y se sube lo pendiente. Cada cambio se sube a los ~1,5 s, solo lo modificado. El recordatorio no se sincroniza (depende del permiso de notificaciones de cada dispositivo). *Cerrar sesión* conserva los datos locales; *Borrar todos mis datos* con sesión iniciada elimina también la cuenta en la nube.
 
 ## Arquitectura
 

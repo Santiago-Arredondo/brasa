@@ -214,6 +214,20 @@ test('sync: un código incorrecto da un error legible', async () => {
   assertEqual(message, 'El código no es válido o ya expiró.');
   assert(!sync.isSignedIn());
 });
+test('sync: cerrar sesión conserva el pacto y las sesiones locales', async () => {
+  const client = fakeSupabase({ session: { user: { id: 'u1', email: 'ana@example.com' } } });
+  const { store, sync } = await setup(client, (s) => {
+    s.actions.signPact(PACT);
+    s.actions.logSession({ date: '2026-11-15', type: 'core', mode: 'full', minutes: 10 });
+  });
+  const localState = store.getState();
+
+  await sync.signOut();
+
+  assert(!sync.isSignedIn());
+  assertEqual(store.getState().profile, localState.profile);
+  assertEqual(store.getState().sessions, localState.sessions);
+});
 test('sync: borrar la cuenta llama a delete_my_account y cierra sesión', async () => {
   const client = fakeSupabase({ profiles: [remoteProfile()], session: { user: { id: 'u1', email: 'ana@example.com' } } });
   const { sync } = await setup(client);
